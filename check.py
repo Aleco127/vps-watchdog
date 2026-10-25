@@ -45,6 +45,8 @@ def checks():
         urllib.request.urlopen("https://zook.mx/", timeout=20).read(100)
     except Exception as e:
         bad.append(f"https://zook.mx: {str(e)[:60]}")
+    if os.environ.get("SIMULAR_CAIDA") == "true":  # prueba del aviso desde "Run workflow"
+        bad.append("caída SIMULADA (prueba del watchdog, ignorar)")
     return bad
 
 

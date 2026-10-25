@@ -5,6 +5,11 @@ on:
     - cron: "*/10 * * * *"   # GitHub puede retrasar las corridas programadas varios minutos
     - cron: "17 12 1 * *"    # keepalive mensual (GitHub apaga los cron tras 60 días sin actividad)
   workflow_dispatch:
+    inputs:
+      simular_caida:
+        description: "Simular una caída para probar el aviso (la siguiente corrida normal avisa la recuperación)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -26,6 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TELEGRAM_BOT: ${{ secrets.TELEGRAM_BOT }}
           TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT }}
+          SIMULAR_CAIDA: ${{ inputs.simular_caida }}
 
   keepalive:
     if: github.event.schedule == '17 12 1 * *'
